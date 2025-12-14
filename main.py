@@ -49,14 +49,6 @@ def menu():
     => """
     return input(textwrap.dedent(menu))
 
-
-
-def criar_usuario():
-    nome = str(input("Digite seu nome: "))
-    dataNascimento = int(input("Digite sua data de nascimento: "))
-    cpf = str(input("Digite seu CPF: "))
-    endereco = str("Informe o seu endereço: ")
-    usuario = []
 def get_extrato(saldo, /, *, extrato):
     print("\n================ EXTRATO ================")
     print("Não foram realizadas movimentações." if not extrato else extrato)
@@ -96,18 +88,13 @@ def sacar(*, saldo, extrato, limite, numero_saques, limite_saques):
     elif excedeu_saques:
         print ("Operação falhou! Número máximo de saques excedido!")
     elif valor > 0:
-
         saldo -= valor
         extrato = add_mensagem_extrato(extrato, valor, "Saque: R$ " )
-        numero_saques += 1
         print ("Saque realizado com sucesso!")
     else:
         print ("Operação falhou! O valor informado é inválido!")
-
     return saldo, extrato
 
-def incrementa_saque(numero_saques):
-    return numero_saques + 1
 
 def criar_usuario(usuarios):
     cpf = str(input("Digite seu CPF: "))
@@ -160,13 +147,16 @@ def main ():
         if opcao == "d":
             saldo, extrato = depositar(saldo, extrato)
         elif opcao == "s":
+            aux_saldo = saldo
             saldo, extrato = sacar(
                 saldo=saldo,
                 extrato=extrato,
                 limite=limite,
                 numero_saques=numero_saques,
-                limite_saques = LIMITE_SAQUES,
+                limite_saques = LIMITE_SAQUES
             )
+            if aux_saldo != saldo:
+                numero_saques += 1
 
         elif opcao == "e":
             get_extrato(saldo, extrato=extrato)
